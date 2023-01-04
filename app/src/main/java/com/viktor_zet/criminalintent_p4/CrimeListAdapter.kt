@@ -1,6 +1,8 @@
 package com.viktor_zet.criminalintent_p4
 
+import android.text.format.DateFormat
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +31,9 @@ class CrimeListAdapter(private val crimes: List<Crime>) :
 
         fun bind(crime: Crime) {
             binding.crimeTitle.text = crime.title
-            binding.crimeDate.text = crime.date.toString()
+            binding.crimeDate.text = 
+               DateFormat.format("MM/dd/yyyy", crime.date) //crime.date.toString()
+            binding.crimeSolved.visibility = if (crime.isSolved) View.VISIBLE else View.GONE
             binding.root.setOnClickListener {
                 Toast.makeText(
                     binding.root.context,

@@ -1,7 +1,6 @@
 package com.viktor_zet.criminalintent_p4
 
-import java.util.Date
-import java.util.UUID
+import java.util.*
 
 data class Crime(
     val id: UUID,
