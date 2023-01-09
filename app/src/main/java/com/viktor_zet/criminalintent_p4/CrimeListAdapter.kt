@@ -11,24 +11,20 @@ import com.viktor_zet.criminalintent_p4.databinding.ListItemCrimeBinding
 class CrimeListAdapter(private val crimes: List<Crime>) :
     RecyclerView.Adapter<CrimeListAdapter.CrimeHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
         return CrimeHolder(binding)
     }
-
     override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
         val crime = crimes[position]
         holder.bind(crime)
     }
-
     override fun getItemCount(): Int = crimes.size
 
     class CrimeHolder(
-        val binding: ListItemCrimeBinding
+        private val binding: ListItemCrimeBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(crime: Crime) {
             binding.crimeTitle.text = crime.title
             binding.crimeDate.text = 
