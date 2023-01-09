@@ -1,9 +1,12 @@
 package com.viktor_zet.criminalintent_p4
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
+@Entity(tableName = "crime")
 data class Crime(
-    val id: UUID,
+    @PrimaryKey val id: UUID,
     var title: String,
     var date: Date,
     var isSolved: Boolean
