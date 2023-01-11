@@ -28,7 +28,7 @@ class CrimeListAdapter(private val crimes: List<Crime>) :
         fun bind(crime: Crime) {
             binding.crimeTitle.text = crime.title
             binding.crimeDate.text = 
-               DateFormat.format("MM/dd/yyyy", crime.date) //crime.date.toString()
+               DateFormat.format("dd/MM/yyyy", crime.date) //crime.date.toString()
             binding.crimeSolved.visibility = if (crime.isSolved) View.VISIBLE else View.GONE
             binding.root.setOnClickListener {
                 Toast.makeText(

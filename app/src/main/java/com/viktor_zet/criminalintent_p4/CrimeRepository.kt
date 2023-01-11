@@ -2,17 +2,22 @@ package com.viktor_zet.criminalintent_p4
 
 import android.content.Context
 import androidx.room.Room
-import com.viktor_zet.criminalintent_p4.database.CrimeDatabse
-
+import com.viktor_zet.criminalintent_p4.database.CrimeDatabase
+import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 
 class CrimeRepository private constructor(context: Context) {
 
-    private val database: CrimeDatabse = Room.databaseBuilder(
+    private val database: CrimeDatabase = Room.databaseBuilder(
         context.applicationContext,
-        CrimeDatabse::class.java,
+        CrimeDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).createFromAsset(DATABASE_NAME)
+        .build()
+
+     fun getCrimes(): Flow<List<Crime>> = database.crimeDao().getCrimes()
+    suspend fun getCrime(id: UUID): Crime = database.crimeDao().getCrime(id)
 
     companion object {
         private const val DATABASE_NAME = "crime-database"

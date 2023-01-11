@@ -12,13 +12,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val dateFormat = DateFormat.format("EEEE/MM/dd/yyyy", Date())
-        Log.d(
-            "date",
-            dateFormat.replaceFirst(
-                "\\w".toRegex(),
-                dateFormat[0].uppercase()
-            )
-        )
     }
 }
