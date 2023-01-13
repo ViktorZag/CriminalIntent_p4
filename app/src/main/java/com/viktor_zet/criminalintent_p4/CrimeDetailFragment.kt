@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.navigation.fragment.navArgs
 import com.viktor_zet.criminalintent_p4.databinding.FragmentCrimeDetailBinding
 import java.util.*
 
@@ -23,7 +24,8 @@ class CrimeDetailFragment : Fragment() {
     private val binding
         get() = checkNotNull(_binding) { "Cannot access binding because it is null. Is the view visible?" }
 
-     lateinit var crime: Crime
+    lateinit var crime: Crime
+    private val args: CrimeDetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +76,7 @@ class CrimeDetailFragment : Fragment() {
 
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
