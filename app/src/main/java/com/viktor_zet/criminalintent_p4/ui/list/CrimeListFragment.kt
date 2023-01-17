@@ -1,4 +1,4 @@
-package com.viktor_zet.criminalintent_p4
+package com.viktor_zet.criminalintent_p4.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.viktor_zet.criminalintent_p4.databinding.FragmentCrimeListBinding
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class CrimeListFragment : Fragment() {
@@ -43,7 +41,9 @@ class CrimeListFragment : Fragment() {
                 crimeListViewModel.crimes.collect { crimes ->
                     binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes) { crimeId ->
                         findNavController().navigate(
-                            CrimeListFragmentDirections.showCrimeDetail(crimeId)
+                            CrimeListFragmentDirections.showCrimeDetail(
+                                crimeId
+                            )
                         )
                     }
                 }

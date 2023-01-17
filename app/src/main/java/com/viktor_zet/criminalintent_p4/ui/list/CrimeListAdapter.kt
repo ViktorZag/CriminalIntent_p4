@@ -1,16 +1,16 @@
-package com.viktor_zet.criminalintent_p4
+package com.viktor_zet.criminalintent_p4.ui.list
 
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.viktor_zet.criminalintent_p4.databinding.ListItemCrimeBinding
+import com.viktor_zet.criminalintent_p4.entity.Crime
 import java.util.UUID
 
 class CrimeListAdapter(
-    private val crimes: List<Crime> ,
+    private val crimes: List<Crime>,
     private val onCrimeClicked: (crimeId:UUID) -> Unit) :
     RecyclerView.Adapter<CrimeListAdapter.CrimeHolder>() {
 

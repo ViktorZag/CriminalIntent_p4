@@ -1,12 +1,8 @@
-package com.viktor_zet.criminalintent_p4
+package com.viktor_zet.criminalintent_p4.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PatternMatcher
-import android.text.format.DateFormat
-import android.util.Log
-import java.util.*
-import java.util.regex.Pattern
+import com.viktor_zet.criminalintent_p4.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

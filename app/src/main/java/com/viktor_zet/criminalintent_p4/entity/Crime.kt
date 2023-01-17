@@ -1,4 +1,4 @@
-package com.viktor_zet.criminalintent_p4
+package com.viktor_zet.criminalintent_p4.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

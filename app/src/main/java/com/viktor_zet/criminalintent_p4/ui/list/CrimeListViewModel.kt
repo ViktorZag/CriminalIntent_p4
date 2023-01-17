@@ -1,12 +1,12 @@
-package com.viktor_zet.criminalintent_p4
+package com.viktor_zet.criminalintent_p4.ui.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.viktor_zet.criminalintent_p4.entity.Crime
+import com.viktor_zet.criminalintent_p4.repository.CrimeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 private const val TAG = "CrimeListViewModel"
