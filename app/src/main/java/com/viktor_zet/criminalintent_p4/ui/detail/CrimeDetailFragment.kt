@@ -1,15 +1,20 @@
 package com.viktor_zet.criminalintent_p4.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.viktor_zet.criminalintent_p4.databinding.FragmentCrimeDetailBinding
 import com.viktor_zet.criminalintent_p4.entity.Crime
@@ -35,7 +40,27 @@ class CrimeDetailFragment : Fragment() {
     private val crimeDetailViewModel: CrimeDetailViewModel by viewModels {
         CrimeDetailViewModelFactory(args.crimeid)
     }
+    private lateinit var callback: OnBackPressedCallback
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.d("Fragment", "Back pressed")
+                if (binding.crimeTitle.text.isBlank()) {
+                    Toast.makeText(context, "Title can't be empty!", Toast.LENGTH_SHORT).show()
+                    Log.d("Fragment", "Toast showed")
+                } else {
+                    isEnabled = false
+                    Log.d("Fragment", "BackStack popped")
+                    findNavController().popBackStack()
+                }
+            }
+        }
+        Log.d("Fragment", "onViewCreated")
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +77,7 @@ class CrimeDetailFragment : Fragment() {
             crimeTitle.doOnTextChanged { text, _, _, _ ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(title = text.toString())
+
                 }
             }
             crimeDate.apply {
@@ -71,6 +97,9 @@ class CrimeDetailFragment : Fragment() {
                 }
             }
         }
+
+
+
     }
 
     override fun onDestroyView() {
