@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -80,10 +81,6 @@ class CrimeDetailFragment : Fragment() {
 
                 }
             }
-            crimeDate.apply {
-
-                isEnabled = false
-            }
             crimeSolved.setOnCheckedChangeListener { _, isChecked ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(isSolved = isChecked)
@@ -98,6 +95,15 @@ class CrimeDetailFragment : Fragment() {
             }
         }
 
+        setFragmentResultListener(DatePickerFragment.REQUEST_KEY_DATE) { _, bundle ->
+            crimeDetailViewModel.updateCrime {
+                it.copy(
+                    date = bundle.getSerializable(
+                        DatePickerFragment.BUNDLE_KEY_DATE
+                    ) as Date
+                )
+            }
+        }
 
 
     }
@@ -113,6 +119,11 @@ class CrimeDetailFragment : Fragment() {
                 crimeTitle.setText(crime.title)
             }
             crimeDate.text = crime.date.toString()
+            crimeDate.setOnClickListener {
+                findNavController().navigate(
+                    CrimeDetailFragmentDirections.selectDate(crime.date)
+                )
+            }
             crimeSolved.isChecked = crime.isSolved
         }
     }
