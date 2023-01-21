@@ -105,7 +105,6 @@ class CrimeDetailFragment : Fragment() {
             }
         }
 
-
     }
 
     override fun onDestroyView() {
@@ -122,6 +121,11 @@ class CrimeDetailFragment : Fragment() {
             crimeDate.setOnClickListener {
                 findNavController().navigate(
                     CrimeDetailFragmentDirections.selectDate(crime.date)
+                )
+            }
+            changeTimeButton.setOnClickListener {
+                findNavController().navigate(
+                    CrimeDetailFragmentDirections.selectTime(crime.date)
                 )
             }
             crimeSolved.isChecked = crime.isSolved
