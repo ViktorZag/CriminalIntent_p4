@@ -11,7 +11,9 @@ import java.util.UUID
 
 class CrimeListAdapter(
     private val crimes: List<Crime>,
-    private val onCrimeClicked: (crimeId:UUID) -> Unit) :
+    private val onCrimeClicked: (crimeId: UUID) -> Unit,
+    private val onLongCrimeClicked: (pos:Int) -> Boolean
+) :
     RecyclerView.Adapter<CrimeListAdapter.CrimeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
@@ -22,7 +24,7 @@ class CrimeListAdapter(
 
     override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
         val crime = crimes[position]
-        holder.bind(crime, onCrimeClicked)
+        holder.bind(crime, onCrimeClicked, onLongCrimeClicked)
     }
 
     override fun getItemCount(): Int = crimes.size
@@ -30,13 +32,20 @@ class CrimeListAdapter(
     class CrimeHolder(
         private val binding: ListItemCrimeBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(crime: Crime, onCrimeClicked: (crimeId: UUID) -> Unit) {
+        fun bind(
+            crime: Crime,
+            onCrimeClicked: (crimeId: UUID) -> Unit,
+            onLongCrimeClicked: (pos: Int) -> Boolean
+        ) {
             binding.crimeTitle.text = crime.title
             binding.crimeDate.text =
                 DateFormat.format("dd/MM/yyyy", crime.date) //crime.date.toString()
             binding.crimeSolved.visibility = if (crime.isSolved) View.VISIBLE else View.GONE
             binding.root.setOnClickListener {
                 onCrimeClicked(crime.id)
+            }
+            binding.root.setOnLongClickListener {
+                onLongCrimeClicked(position)
             }
         }
     }

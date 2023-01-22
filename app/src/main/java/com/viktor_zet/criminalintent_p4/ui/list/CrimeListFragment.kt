@@ -1,7 +1,9 @@
 package com.viktor_zet.criminalintent_p4.ui.list
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -50,18 +52,37 @@ class CrimeListFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 crimeListViewModel.crimes.collect { crimes ->
+                    // Shows a message if the list is empty
                     if (crimes.isEmpty()) binding.msgText.visibility = View.VISIBLE
                     else binding.msgText.visibility = View.GONE
-                    binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes) { crimeId ->
+
+                    binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes, { crimeId ->
                         findNavController().navigate(
                             CrimeListFragmentDirections.showCrimeDetail(
                                 crimeId
                             )
                         )
-                    }
+                    }, { pos ->
+                        val alertDialog =
+                            AlertDialog.Builder(this@CrimeListFragment.requireContext())
+                                .setTitle("Deleteting")
+                                .setMessage("Delete?")
+                                .setNegativeButton("Cancel") { _, _ -> }
+                                .setPositiveButton("Ok") { _, _ ->
+                                    lifecycleScope.launch {
+                                        crimeListViewModel.deleteCrime(
+                                            crimes[pos]
+                                        )
+                                    }
+                                }
+                        alertDialog.create().show()
+                        true
+                    })
                 }
             }
         }
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
