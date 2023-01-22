@@ -25,6 +25,11 @@ class CrimeListViewModel : ViewModel() {
             }
         }
     }
-
+    suspend fun addCrime(crime: Crime){
+        repository.addCrime(crime)
+    }
+    suspend fun deleteCrime(crime: Crime){
+        repository.deleteCrime(crime)
+    }
 
 }

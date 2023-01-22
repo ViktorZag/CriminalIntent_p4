@@ -1,8 +1,6 @@
 package com.viktor_zet.criminalintent_p4.database
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.viktor_zet.criminalintent_p4.entity.Crime
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
@@ -18,4 +16,10 @@ interface CrimeDao {
 
     @Update
     suspend fun updateCrime(crime: Crime)
+
+    @Insert
+    suspend fun addCrime(crime: Crime)
+
+    @Delete
+    suspend fun deleteCrime(crime: Crime)
 }
