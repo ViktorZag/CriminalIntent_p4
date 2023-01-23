@@ -55,14 +55,15 @@ class CrimeListFragment : Fragment() {
                     // Shows a message if the list is empty
                     if (crimes.isEmpty()) binding.msgText.visibility = View.VISIBLE
                     else binding.msgText.visibility = View.GONE
-
                     binding.crimeRecyclerView.adapter = CrimeListAdapter(crimes, { crimeId ->
+                        //On click it will navigate to detail fragment
                         findNavController().navigate(
                             CrimeListFragmentDirections.showCrimeDetail(
                                 crimeId
                             )
                         )
                     }, { pos ->
+                        //Deleting item by Alert Dialog
                         val alertDialog =
                             AlertDialog.Builder(this@CrimeListFragment.requireContext())
                                 .setTitle("Deleteting")

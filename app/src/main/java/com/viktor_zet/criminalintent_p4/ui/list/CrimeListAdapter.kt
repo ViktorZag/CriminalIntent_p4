@@ -39,7 +39,7 @@ class CrimeListAdapter(
         ) {
             binding.crimeTitle.text = crime.title
             binding.crimeDate.text =
-                DateFormat.format("dd/MM/yyyy", crime.date) //crime.date.toString()
+                DateFormat.format("dd/MMM/EEE", crime.date) //crime.date.toString()
             binding.crimeSolved.visibility = if (crime.isSolved) View.VISIBLE else View.GONE
             binding.root.setOnClickListener {
                 onCrimeClicked(crime.id)
