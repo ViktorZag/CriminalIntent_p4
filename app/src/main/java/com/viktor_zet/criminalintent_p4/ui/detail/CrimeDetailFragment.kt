@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.MediaStore
 import android.text.format.DateFormat
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,7 +17,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnLayout
@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import kotlin.math.roundToInt
+import com.viktor_zet.criminalintent_p4.utils.rotateBitmap
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val TASK = "TASK"
@@ -73,8 +74,7 @@ class CrimeDetailFragment : Fragment() {
     }
     private var photoName: String? = null
 
-    private lateinit
-    var callback: OnBackPressedCallback
+    private lateinit var callback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,17 +122,13 @@ class CrimeDetailFragment : Fragment() {
             crimeSuspect.setOnClickListener {
                 selectSuspect.launch(null)
             }
-            val selectSuspectIntent = selectSuspect.contract.createIntent(requireContext(), null)
-            crimeSuspect.isEnabled = canResolveIntent(selectSuspectIntent)
 
-            val captureImageIntent = takePhoto.contract.createIntent(requireContext(), null)
-            crimeCamera.isEnabled = canResolveIntent(captureImageIntent)
 
             crimeCamera.setOnClickListener {
                 photoName = "IMG_${Date()}.JPG"
                 val photoFile = File(
                     requireContext().applicationContext.filesDir,
-                    photoName
+                    photoName!!
                 )
                 val photoUri = FileProvider.getUriForFile(
                     requireContext(),
@@ -141,6 +137,12 @@ class CrimeDetailFragment : Fragment() {
                 )
                 takePhoto.launch(photoUri)
             }
+            val selectSuspectIntent = selectSuspect.contract.createIntent(requireContext(), null)
+            crimeSuspect.isEnabled = canResolveIntent(selectSuspectIntent)
+
+            val captureImageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+         //   val captureImageIntent = takePhoto.contract.createIntent(requireContext(), null)
+            crimeCamera.isEnabled = canResolveIntent(captureImageIntent)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -182,6 +184,10 @@ class CrimeDetailFragment : Fragment() {
                 findNavController().navigate(
                     CrimeDetailFragmentDirections.selectTime(crime.date)
                 )
+            }
+            crimePhoto.setOnClickListener {
+                if (crime.photoFileName!=null)
+                findNavController().navigate(CrimeDetailFragmentDirections.showImage(crime.photoFileName))
             }
             crimeSolved.isChecked = crime.isSolved
             crimeReport.setOnClickListener {
@@ -277,7 +283,7 @@ class CrimeDetailFragment : Fragment() {
                         measuredView.width,
                         measuredView.height
                     )
-                    binding.crimePhoto.setImageBitmap(scaledBitmap)
+                    binding.crimePhoto.setImageBitmap(rotateBitmap(scaledBitmap, 90.0f))
                     binding.crimePhoto.tag = photoFileName
                 }
             } else {
